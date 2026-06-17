@@ -52,12 +52,22 @@ FLUSH PRIVILEGES;
 
 ### 3. Configure the database connection
 
-Open `src/main/resources/application.properties` and update the credentials if needed:
+`application.properties` is excluded from the repository (to protect credentials). Copy the provided template and fill in your details:
+
+```bash
+# Windows
+copy src\main\resources\application.properties.example src\main\resources\application.properties
+
+# macOS / Linux
+cp src/main/resources/application.properties.example src/main/resources/application.properties
+```
+
+Then open `src/main/resources/application.properties` and update the credentials:
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/tvpssms
-spring.datasource.username=john_doe
-spring.datasource.password=password
+spring.datasource.url=jdbc:mysql://localhost:3306/tvpssms?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+spring.datasource.username=root
+spring.datasource.password=your_password_here
 ```
 
 ### 4. Seed an initial Admin user
