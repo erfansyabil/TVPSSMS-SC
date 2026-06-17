@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin: View Reports</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Link to your custom CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 bg-dark text-white min-vh-100">
+                <div class="p-3">
+                    <div class="d-flex justify-content-center mb-3">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1794/1794749.png" 
+                             alt="Admin Avatar" 
+                             class="img-fluid rounded-circle" 
+                             style="width: 100px; height: 100px;">
+                    </div>
+                    <h5>Admin</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a th:href="@{/users/admin}" class="nav-link text-white">Dashboard</a></li>
+                        <li class="nav-item"><a th:href="@{/report/admin-view}" class="nav-link text-white">View Program Report</a></li>
+                        <li class="nav-item"><a th:href="@{/content/}" class="nav-link text-white">View Contents</a></li>
+                        <li class="nav-item"><a th:href="@{/content/manage}" class="nav-link text-white">Manage Contents</a></li>
+                        <li class="nav-item"><a th:href="@{/logout}" class="nav-link text-white">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="content col-md-10 p-4">
+                <h1 class="mb-4">Admin: View Reports</h1>
+
+                <!-- Reports Table -->
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Program Name</th>
+                                <th>Program Date</th>
+                                <th>Report Content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="report : ${reports}">
+                                <td th:text="${report.program != null ? report.program.programName : 'No Program'}"></td>
+                                <td th:text="${report.program != null ? report.program.date : 'No Date'}"></td>
+                                <td th:text="${report.content != null ? report.content : 'No Content'}"></td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(reports)}">
+                                <td colspan="3" class="text-center">No Reports Available</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

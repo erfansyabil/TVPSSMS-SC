@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <!-- Bootstrap CSS -->
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+        <div class="col-md-2 bg-primary text-white min-vh-100">
+            <div th:if="${#authentication.principal.authorities.contains('ROLE_TEACHER')}" 
+                 th:insert="sidebar/teacher :: sidebar"></div>
+            <div th:if="${#authentication.principal.authorities.contains('ROLE_STUDENT')}" 
+                 th:insert="sidebar/student :: sidebar"></div>
+            <div th:if="${#authentication.principal.authorities.contains('ROLE_ADMIN')}" 
+                 th:insert="sidebar/admin :: sidebar"></div>
+        </div>
+    <!-- Main Content -->
+    <div class="col-md-10">
+      <div class="p-4">
+        <!-- Welcome Section -->
+        <div class="mb-4">
+          <h1>Welcome to the Home Page</h1>
+          <p class="text-muted">Your one-stop portal for managing crews, programs, and content effectively.</p>
+        </div>
+        <!-- Latest Updates Section -->
+        <div class="mb-4">
+          <h3>Latest Updates</h3>
+          <ul class="list-group">
+            <li class="list-group-item">New crew registration form has been updated.</li>
+            <li class="list-group-item">Program X report is now available.</li>
+            <li class="list-group-item">System maintenance scheduled for next week.</li>
+          </ul>
+        </div>
+        <!-- Quick Links Section -->
+        <div>
+          <h3>Quick Links</h3>
+          <div class="d-flex gap-3">
+            <a th:href="@{/crew/registration}" class="btn btn-primary">Crew Registration</a>
+            <a th:href="@{/content/view}" class="btn btn-secondary">View Content</a>
+            <a th:href="@{#}" class="btn btn-warning">Manage Programs</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

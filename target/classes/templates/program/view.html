@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View All Programs</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row">
+        <!-- Sidebar -->
+    <div class="col-md-2 bg-primary text-white min-vh-100" th:fragment="sidebar">
+      <div class="p-3">
+        <!-- Centering only the image -->
+        <div class="d-flex justify-content-center mb-3">
+          <img src="https://static.vecteezy.com/system/resources/previews/042/891/253/non_2x/professional-teacher-avatar-illustration-for-education-concept-vector.jpg" alt="Teacher Avatar" class="img-fluid rounded-circle" style="width: 100px; height: 100px;">
+        
+        </div>
+        <h5>Teacher</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item"><a th:href="@{/users/teacher}" class="nav-link text-white">Home</a></li>
+          <li class="nav-item"><a th:href="@{/crew/registration}" class="nav-link text-white">Crew Registration List</a></li>
+          <li class="nav-item"><a th:href="@{/crew/task}" class="nav-link text-white">Manage Crew Task</a></li>
+          <li class="nav-item"><a th:href="@{/program/view}" class="nav-link text-white">Manage Program</a></li>
+          <li class="nav-item"><a th:href="@{/report/view}" class="nav-link text-white">Manage Program Report</a></li>
+          <li class="nav-item"><a th:href="@{/content/}" class="nav-link text-white">View Content</a></li>
+          <li class="nav-item"><a th:href="@{/content/manage}" class="nav-link text-white">Manage Content</a></li>
+          <li class="nav-item"><a th:href="@{/logout}" class="nav-link text-white">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-md-9 col-lg-10">
+      <div class="p-4">
+        <h2 class="mb-4">Program List</h2>
+
+        <!-- Add Program Button -->
+        <div class="mb-4 d-flex justify-content-between align-items-center">
+          <input type="text" class="form-control w-75" placeholder="Search for a program here..." />
+          <a th:href="@{/program/add}" class="btn btn-primary ms-3">Add Program</a>
+        </div>
+
+        <!-- Program List -->
+        <div class="row">
+          <!-- Loop through program list using Thymeleaf -->
+          <div th:each="program : ${programs}" class="col-md-4 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title" th:text="${program.programName}">Program Name</h5>
+                <p class="card-text">Date: <span th:text="${program.date}">Program Date</span></p>
+                <p class="card-text">Location: <span th:text="${program.location}">Program Location</span></p>
+                <p class="card-text">Description: <span th:text="${program.description}">Program Description</span></p>
+                
+                <!-- Action Buttons -->
+                <a th:href="@{/program/view/{id}(id=${program.id})}" class="btn btn-primary btn-sm">View</a>
+                <a th:href="@{/program/edit/{id}(id=${program.id})}" class="btn btn-warning btn-sm">Edit</a>
+                <a th:href="@{/program/delete/{id}(id=${program.id})}" 
+                   class="btn btn-danger btn-sm" 
+                   onclick="return confirm('Are you sure you want to delete this program?');">
+                   Delete
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- No Programs Found Message -->
+        <div th:if="${programs.empty}" class="text-center mt-4">
+          <p class="text-muted">No programs found. Click "Add Program" to create a new one.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
