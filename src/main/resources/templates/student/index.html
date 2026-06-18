@@ -6,51 +6,311 @@
     <title>Student Portal</title>
     <!-- Bootstrap CSS -->
     <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --primary-bg: #f8fafc;
+            --sidebar-bg: #1e293b;
+            --sidebar-hover: #334155;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            background: linear-gradient(180deg, var(--sidebar-bg) 0%, #0f172a 100%);
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .nav-link {
+            color: #cbd5e1 !important;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: all 0.2s ease;
+            padding: 12px 20px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: var(--sidebar-hover);
+            color: #ffffff !important;
+            transform: translateX(5px);
+        }
+
+        .sidebar .nav-link i {
+            font-size: 1.2rem;
+        }
+
+        .profile-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            padding: 3px;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            padding: 40px;
+        }
+
+        /* Cards */
+        .glass-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Typography */
+        h1 {
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        /* List Group Styling */
+        .custom-list {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .custom-list .list-group-item {
+            border: none;
+            border-bottom: 1px solid #f1f5f9;
+            padding: 16px 20px;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .custom-list .list-group-item:last-child {
+            border-bottom: none;
+        }
+
+        .custom-list .list-group-item:hover {
+            background-color: #f8fafc;
+        }
+
+        .announcement-icon {
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        /* Buttons */
+        .btn-custom {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary-custom {
+            background-color: var(--accent-color);
+            border: none;
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary-custom:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+            color: white;
+        }
+
+        .btn-secondary-custom {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: var(--text-main);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .btn-secondary-custom:hover {
+            background-color: #f8fafc;
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+            color: var(--text-main);
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-up {
+            animation: fadeUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+    </style>
 </head>
 <body>
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid p-0">
+  <div class="row g-0">
     <!-- Sidebar -->
-    <div class="col-md-2 bg-success text-white min-vh-100" th:fragment="sidebar">
-      <div class="p-3">
-        <!-- Centering only the image -->
-        <div class="d-flex justify-content-center mb-3">
-          <img src="https://cdn-icons-png.flaticon.com/512/3429/3429425.png" style="width: 100px; height: 100px;">
+    <div class="col-md-2 sidebar min-vh-100 position-relative" th:fragment="sidebar">
+      <div class="p-4 d-flex flex-column h-100">
+        <!-- Profile Section -->
+        <div class="text-center mb-5 mt-3">
+          <img src="https://cdn-icons-png.flaticon.com/512/3429/3429425.png" alt="Student Profile" class="profile-img mb-3 bg-white">
+          <h5 class="text-white fw-bold mb-1">Student Portal</h5>
+          <span class="badge bg-primary bg-opacity-25 text-primary-emphasis border border-primary-subtle rounded-pill px-3 py-1">Online</span>
         </div>
-        <h5>Student</h5>
-        <ul class="nav flex-column">
-          <li class="nav-item"><a th:href="@{/users/student}" class="nav-link text-white">Dashboard</a></li>
-          <li class="nav-item"><a th:href="@{/crew/register}" class="nav-link text-white">Crew Registration</a></li>
-          <li class="nav-item"><a th:href="@{/content/}" class="nav-link text-white">View Content</a></li>
-          <li class="nav-item"><a th:href="@{/logout}" class="nav-link text-white">Logout</a></li>
+        
+        <!-- Navigation -->
+        <ul class="nav flex-column w-100 mb-auto">
+          <li class="nav-item">
+            <a th:href="@{/users/student}" class="nav-link active" style="background-color: rgba(255,255,255,0.1); color: white !important;">
+              <i class="bi bi-grid-1x2"></i> Dashboard
+            </a>
+          </li>
+          <li class="nav-item mt-2">
+            <a th:href="@{/crew/register}" class="nav-link">
+              <i class="bi bi-person-badge"></i> Crew Registration
+            </a>
+          </li>
+          <li class="nav-item mt-2">
+            <a th:href="@{/content/}" class="nav-link">
+              <i class="bi bi-collection-play"></i> View Content
+            </a>
+          </li>
         </ul>
+
+        <!-- Bottom Action -->
+        <div class="mt-auto border-top border-secondary pt-4">
+          <a th:href="@{/logout}" class="nav-link text-danger d-flex align-items-center gap-2" style="padding: 12px 20px;">
+            <i class="bi bi-box-arrow-right"></i> Logout
+          </a>
+        </div>
       </div>
     </div>
    
     <!-- Main Content -->
-    <div class="col-md-10">
-      <div class="p-4">
+    <div class="col-md-10 bg-light">
+      <div class="main-content">
+        
         <!-- Welcome Section -->
-        <div class="mb-4">
-          <h1>Welcome to the Student Portal</h1>
-          <p class="text-muted">Your portal for crew registraion and view contents.</p>
-        </div>
-        <!-- Announcements Section -->
-        <div class="mb-4">
-          <h3>Announcements</h3>
-          <ul class="list-group">
-            <li class="list-group-item">Register as crew.</li>
-            <li class="list-group-item">View new content</li>
-          </ul>
-        </div>
-        <!-- Quick Links Section -->
-        <div>
-          <h3>Quick Links</h3>
-          <div class="d-flex gap-3">
-            <a th:href="@{/crew/register}" class="btn btn-primary">Crew Registration</a>
-            <a th:href="@{/content/}" class="btn btn-secondary">View Content</a>
+        <div class="glass-card mb-4 animate-up">
+          <div class="d-flex align-items-center gap-4">
+            <div class="rounded-circle bg-primary bg-opacity-10 p-3 text-primary">
+              <i class="bi bi-stars fs-1"></i>
+            </div>
+            <div>
+              <h1>Welcome back!</h1>
+              <p class="subtitle">Here is what's happening in your student portal today.</p>
+            </div>
           </div>
         </div>
+
+        <div class="row g-4">
+          <!-- Announcements Section -->
+          <div class="col-lg-7">
+            <div class="glass-card h-100 animate-up delay-1">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fs-5 fw-bold mb-0">Recent Announcements</h3>
+                <span class="badge bg-info bg-opacity-10 text-info border border-info-subtle">2 New</span>
+              </div>
+              
+              <ul class="list-group custom-list">
+                <li class="list-group-item">
+                  <div class="announcement-icon">
+                    <i class="bi bi-megaphone-fill"></i>
+                  </div>
+                  <div>
+                    <h6 class="mb-1 fw-semibold">Crew Registration Open</h6>
+                    <small class="text-muted">Register now to join the crew team.</small>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="announcement-icon" style="background: #ecfdf5; color: #10b981;">
+                    <i class="bi bi-camera-video-fill"></i>
+                  </div>
+                  <div>
+                    <h6 class="mb-1 fw-semibold">New Content Available</h6>
+                    <small class="text-muted">Check out the latest video materials in the content section.</small>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Quick Links Section -->
+          <div class="col-lg-5">
+            <div class="glass-card h-100 animate-up delay-2">
+              <h3 class="fs-5 fw-bold mb-4">Quick Actions</h3>
+              
+              <div class="d-flex flex-column gap-3">
+                <a th:href="@{/crew/register}" class="btn-custom btn-primary-custom w-100 text-decoration-none">
+                  <i class="bi bi-person-plus fs-5"></i>
+                  <div class="text-start ms-2">
+                    <div class="fw-bold">Register as Crew</div>
+                    <div class="small opacity-75 fw-normal">Join the broadcasting team</div>
+                  </div>
+                  <i class="bi bi-arrow-right ms-auto"></i>
+                </a>
+                
+                <a th:href="@{/content/}" class="btn-custom btn-secondary-custom w-100 text-decoration-none">
+                  <i class="bi bi-play-circle fs-5 text-primary"></i>
+                  <div class="text-start ms-2">
+                    <div class="fw-bold">View Content</div>
+                    <div class="small text-muted fw-normal">Browse available materials</div>
+                  </div>
+                  <i class="bi bi-arrow-right ms-auto"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
