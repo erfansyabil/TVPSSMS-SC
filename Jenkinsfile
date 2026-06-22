@@ -6,8 +6,6 @@ pipeline {
         // ── Update DOCKER_HUB_USER to your Docker Hub username ──
         DOCKER_IMAGE = "erfansyabil/${APP_NAME}"
         DOCKER_TAG   = "${BUILD_NUMBER}"
-        // ── Must match the ID you set in Manage Jenkins → Jira Sites ──
-        JIRA_SITE    = 'MyJira'
         // ── Update to the actual Jira issue you want notified ──
         JIRA_ISSUE   = 'CS-2'
     }
@@ -104,8 +102,7 @@ pipeline {
 
         stage('Notify Jira') {
             steps {
-                jiraComment site: "${JIRA_SITE}",
-                            issueKey: "${JIRA_ISSUE}",
+                jiraComment issueKey: "${JIRA_ISSUE}",
                             body: "Build #${BUILD_NUMBER} PASSED — image pushed: ${DOCKER_IMAGE}:${DOCKER_TAG}"
             }
         }
@@ -113,8 +110,7 @@ pipeline {
 
     post {
         failure {
-            jiraComment site: "${JIRA_SITE}",
-                        issueKey: "${JIRA_ISSUE}",
+            jiraComment issueKey: "${JIRA_ISSUE}",
                         body: "Build #${BUILD_NUMBER} FAILED — ${BUILD_URL}"
         }
     }
