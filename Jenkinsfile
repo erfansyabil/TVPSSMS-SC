@@ -6,8 +6,8 @@ pipeline {
         // ── Update DOCKER_HUB_USER to your Docker Hub username ──
         DOCKER_IMAGE = "erfansyabil/${APP_NAME}"
         DOCKER_TAG   = "${BUILD_NUMBER}"
-        // ── Update to the actual Jira issue you want notified ──
-        JIRA_ISSUE   = 'CS-2'
+        // ── Comma-separated list of Jira issues to notify ──
+        JIRA_ISSUES  = 'CS-2,CS-3'
     }
 
     stages {
@@ -101,16 +101,24 @@ pipeline {
 
         stage('Notify Jira') {
             steps {
-                jiraComment issueKey: "${JIRA_ISSUE}",
-                            body: "Build #${BUILD_NUMBER} PASSED — image pushed: ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                script {
+                    JIRA_ISSUES.split(',').each { issue ->
+                        jiraComment issueKey: issue.trim(),
+                                    body: "Build #${BUILD_NUMBER} PASSED — image pushed: ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                    }
+                }
             }
         }
     }
 
     post {
         failure {
-            jiraComment issueKey: "${JIRA_ISSUE}",
-                        body: "Build #${BUILD_NUMBER} FAILED — ${BUILD_URL}"
+            script {
+                JIRA_ISSUES.split(',').each { issue ->
+                    jiraComment issueKey: issue.trim(),
+                                body: "Build #${BUILD_NUMBER} FAILED — ${BUILD_URL}"
+                }
+            }
         }
     }
 }
