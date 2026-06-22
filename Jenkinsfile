@@ -93,8 +93,9 @@ pipeline {
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'target/jmeter/results.jtl',
-                                     allowEmptyArchive: true
+                    perfReport sourceDataFiles: 'target/jmeter/results.jtl',
+                               errorUnstableThreshold: 0,
+                               errorFailedThreshold: 50
                 }
             }
         }
