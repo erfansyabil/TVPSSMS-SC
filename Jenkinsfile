@@ -81,21 +81,20 @@ pipeline {
 
         stage('Load Test (JMeter)') {
             when {
-                // Skip gracefully until you create the JMX file
                 expression { fileExists('tests/load/tvpssms_load_test.jmx') }
             }
             steps {
                 sh """
-                    mkdir -p target/jmeter/report
-                    jmeter -n \\
-                        -t tests/load/tvpssms_load_test.jmx \\
-                        -l target/jmeter/results.jtl \\
-                        -e -o target/jmeter/report
+                    mkdir -p target/jmeter
+                    jmeter -n \
+                        -t tests/load/tvpssms_load_test.jmx \
+                        -l target/jmeter/results.jtl
                 """
             }
             post {
                 always {
-                    perfReport sourceDataFiles: 'target/jmeter/results.jtl'
+                    archiveArtifacts artifacts: 'target/jmeter/results.jtl',
+                                     allowEmptyArchive: true
                 }
             }
         }
